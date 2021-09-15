@@ -116,7 +116,7 @@ def run(argv=None):
         required=False,
         help='Output file to write results to.')
     parser.add_argument(
-        '--pubsubtopic',
+            '--pubsubtopic',
         dest='pubsubtopic',
         required=False,
         help='Output file to write results to.')

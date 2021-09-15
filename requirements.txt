@@ -8,3 +8,4 @@ Flask-RESTful==0.3.7
 uwsgi==2.0.18
 spacy==2.2.4
 google-cloud-storage==1.18.1
+psutil==5.8.0
