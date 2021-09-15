@@ -1,0 +1,10 @@
+sentence-transformers==2.0.0
+pandas==1.1.5
+apache-beam[gcp]==2.31.0
+pdfminer
+fastt5
+Flask==1.0.2
+Flask-RESTful==0.3.7
+uwsgi==2.0.18
+spacy==2.2.4
+google-cloud-storage==1.18.1
