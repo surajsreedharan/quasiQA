@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: qqaClient
+  name: qqaClient
+  namespace: default
+spec:
+  ports:
+  - name: http-tf-serving
+    port: 5999
+    targetPort: 5999
+  selector:
+    app: qqaClient
+  type: LoadBalancer
+  serviceAccountName: quasiqa-sa
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: qqaClient
+  name: qqaClient
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: qqaClient
+  template:
+    metadata:
+      labels:
+        app: qqaClient
+        version: v1
+    spec:
+      containers:
+      - args:
+        - --http=:5999
+        env:
+        - name: BIGQUERY_DF
+          value: "***"
+        - name: PUBSUB_TOPIC
+          value: "***"
+        - name: GCLOUD_PROJECT
+          value: "***"
+        - name: BERT_MODEL
+          value: "bert_model_choice"
+        - name: T5_MODEL
+          value: "mrm8488/t5-base-finetuned-summarize-news"
+        - name: FAST_T5_MODEL
+          value: "t5-small"
+        image: *
+        imagePullPolicy: Always
+        name: qqaClient
+        ports:
+        - containerPort: 5999
+      serviceAccountName: quasiqa-sa

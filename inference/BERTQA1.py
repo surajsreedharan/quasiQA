@@ -13,8 +13,8 @@ import os
 from transformers import DistilBertForQuestionAnswering, DistilBertTokenizerFast
 
 bert_model_choice =  os.environ.get('BERT_MODEL', 'distilbert-base-uncase')
-bert_model = DistilBertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-bert_tokenizer = DistilBertTokenizerFast.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+bert_model = DistilBertForQuestionAnswering.from_pretrained(bert_model_choice)
+bert_tokenizer = DistilBertTokenizerFast.from_pretrained(bert_model_choice)
 def answer_question_BERT(question, answer_text):
     '''
     Takes a `question` string and an `answer_text` string (which contains the
