@@ -12,7 +12,7 @@ import textwrap
 import os
 from transformers import DistilBertForQuestionAnswering, DistilBertTokenizerFast
 
-bert_model_choice =  os.environ.get('BERT_MODEL', 'distilbert-base-uncase')
+bert_model_choice =  os.environ.get('BERT_MODEL', 'distilbert-base-uncased')
 bert_model = DistilBertForQuestionAnswering.from_pretrained(bert_model_choice)
 bert_tokenizer = DistilBertTokenizerFast.from_pretrained(bert_model_choice)
 def answer_question_BERT(question, answer_text):
