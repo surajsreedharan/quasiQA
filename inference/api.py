@@ -202,8 +202,8 @@ def pred_bert():
             para = para_df.loc[para_df['par_num'] == top_para.name]['paragraph'].values[0]
             abstractive_answer = answerer(question, para,model,tokenizer)
             json_reply.append({'rank':i,'answer':abstractive_answer})
-            print("\nBERT Abstractive Answer:\n", abstractive_answer)
-    res = {'answers':json_reply,'type':'BERT'}
+            print("\nAnswer:\n", abstractive_answer)
+    res = {'answers':json_reply}
     return jsonify(res), 200
 
 
