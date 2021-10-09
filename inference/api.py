@@ -15,9 +15,7 @@ from sklearn.feature_extraction import text
 from flask import request, jsonify
 import numpy as np
 import pandas as pd
-from inference.fastT5QA import fast_generate_T5_answer
-from inference.T5QA import generate_T5_answer
-from inference.BERTQA1 import generate_answer_BERT
+from inference import model,tokenizer,answerer
 from google.cloud import pubsub_v1
 import json
 import uuid
@@ -190,42 +188,8 @@ def shortlistParagraph(question):
     top_n_paragraphs = similarity_max_df.nlargest(5, 'Similarity')
     return top_n_paragraphs
 
-@app.route("/qqa/fastt5", methods=["POST"])
-def pred_fastt5():
-    data = request.get_json(force=True)
-    question = data.get('input').strip()
-    top_paragraphs = shortlistParagraph(question)
-    json_reply = []
-    num_para = data.get('number_of_paragraphs')
-    for i in range(num_para):
-        top_para = top_paragraphs.iloc[i]
-        if top_para['Similarity'] >= 0.1:
-            para = para_df.loc[para_df['par_num'] == top_para.name]['paragraph'].values[0]
-            abstractive_answer = fast_generate_T5_answer(question, para)
-            json_reply.append({'rank':i,'answer':abstractive_answer})
-            print("\nFastT5 Abstractive Answer:\n", abstractive_answer)
 
-    res = {'answers':json_reply,'type':'fastT5'}
-    return jsonify(res), 200
-
-@app.route("/qqa/t5", methods=["POST"])
-def pred_t5():
-    data = request.get_json(force=True)
-    question = data.get('input').strip()
-    top_paragraphs = shortlistParagraph(question)
-    json_reply = []
-    num_para = data.get('number_of_paragraphs')
-    for i in range(num_para):
-        top_para = top_paragraphs.iloc[i]
-        if top_para['Similarity'] >= 0.1:
-            para = para_df.loc[para_df['par_num'] == top_para.name]['paragraph'].values[0]
-            abstractive_answer = generate_T5_answer(question, para)
-            json_reply.append({'rank':i,'answer':abstractive_answer})
-            print("\nT5 Abstractive Answer:\n", abstractive_answer)
-    res = {'answers':json_reply,'type':'T5'}
-    return jsonify(res), 200
-
-@app.route("/qqa/bert", methods=["POST"])
+@app.route("/qqa/answer", methods=["POST"])
 def pred_bert():
     data = request.get_json(force=True)
     question = data.get('input').strip()
@@ -236,7 +200,7 @@ def pred_bert():
         top_para = top_paragraphs.iloc[i]
         if top_para['Similarity'] >= 0.1:
             para = para_df.loc[para_df['par_num'] == top_para.name]['paragraph'].values[0]
-            abstractive_answer = generate_answer_BERT(question, para)
+            abstractive_answer = answerer(question, para,model,tokenizer)
             json_reply.append({'rank':i,'answer':abstractive_answer})
             print("\nBERT Abstractive Answer:\n", abstractive_answer)
     res = {'answers':json_reply,'type':'BERT'}

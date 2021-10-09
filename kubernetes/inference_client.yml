@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: qqaClient
-  name: qqaClient
+    app: qqaclient
+  name: qqaclient
   namespace: default
 spec:
   ports:
@@ -11,47 +11,47 @@ spec:
     port: 5999
     targetPort: 5999
   selector:
-    app: qqaClient
+    app: qqaclient
   type: LoadBalancer
-  serviceAccountName: quasiqa-sa
+
 
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: qqaClient
-  name: qqaClient
+    app: qqaclient
+  name: qqaclient
   namespace: default
 spec:
   selector:
     matchLabels:
-      app: qqaClient
+      app: qqaclient
   template:
     metadata:
       labels:
-        app: qqaClient
+        app: qqaclient
         version: v1
     spec:
+      serviceAccount: quasiqa-sa
       containers:
       - args:
         - --http=:5999
         env:
         - name: BIGQUERY_DF
-          value: "***"
+          value: "integrated-hawk-323110.qqa_text.qqatext_df"
         - name: PUBSUB_TOPIC
-          value: "***"
+          value: "quasiQa-kb-notify"
         - name: GCLOUD_PROJECT
-          value: "***"
+          value: "integrated-hawk-323110"
         - name: BERT_MODEL
           value: "bert_model_choice"
         - name: T5_MODEL
           value: "mrm8488/t5-base-finetuned-summarize-news"
         - name: FAST_T5_MODEL
           value: "t5-small"
-        image: *
+        image: us.gcr.io/integrated-hawk-323110/quasiqa:9ed60dd
         imagePullPolicy: Always
-        name: qqaClient
+        name: qqaclient
         ports:
         - containerPort: 5999
-      serviceAccountName: quasiqa-sa
