@@ -4,7 +4,7 @@ COPY . .
 
 RUN mkdir data
 
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 RUN python -m spacy download fr_core_news_sm
 
