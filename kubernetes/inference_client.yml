@@ -38,21 +38,21 @@ spec:
       - args:
         - --http=:5999
         env:
-        - name: BIGQUERY_DF
-          value: "integrated-hawk-323110.qqa_text.qqatext_df"
         - name: MODEL_TYPE
-          value: "bert"
+          value: bert
+        - name: BIGQUERY_DF
+          value: integrated-hawk-323110.qqa_text.qqatext_df
         - name: PUBSUB_TOPIC
-          value: "quasiQa-kb-notify"
+          value: quasiQa-kb-notify
         - name: GCLOUD_PROJECT
-          value: "integrated-hawk-323110"
+          value: integrated-hawk-323110
         - name: BERT_MODEL
-          value: "bert_model_choice"
+          value: distilbert-base-uncased
         - name: T5_MODEL
-          value: "mrm8488/t5-base-finetuned-summarize-news"
+          value: mrm8488/t5-base-finetuned-summarize-news
         - name: FAST_T5_MODEL
-          value: "t5-small"
-        image: us.gcr.io/integrated-hawk-323110/quasiqa:9ed60dd
+          value: t5-small
+        image: us.gcr.io/integrated-hawk-323110/quasiqa:a432b0b
         imagePullPolicy: Always
         name: qqaclient
         ports:
