@@ -162,8 +162,8 @@ def unload_model_enpoint():
 @app.route("/qqa/load_kb", methods=["POST"])
 def trigger_preprocess():
     kb_id=str(uuid.uuid4())
-    topic_id = os.environ.get('PUBSUB_TOPIC','odigo-test')
-    project_id = os.environ.get("GCLOUD_PROJECT",'concierge-elephant')
+    topic_id = os.environ.get('PUBSUB_TOPIC','pubsub-test')
+    project_id = os.environ.get("GCLOUD_PROJECT",'gcloudproj-name')
     publisher = pubsub_v1.PublisherClient()
     topic_path = publisher.topic_path(project_id, topic_id)
     data = request.get_json(force=True)

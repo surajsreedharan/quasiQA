@@ -40,6 +40,8 @@ spec:
         env:
         - name: BIGQUERY_DF
           value: "integrated-hawk-323110.qqa_text.qqatext_df"
+        - name: MODEL_TYPE
+          value: "bert"
         - name: PUBSUB_TOPIC
           value: "quasiQa-kb-notify"
         - name: GCLOUD_PROJECT
